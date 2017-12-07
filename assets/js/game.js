@@ -1,12 +1,14 @@
-
+console.log ("s")
 // Declaring variables and initial values
 var totalGuesses = 20;
 var guessesLeft = 20 ;
-var guessedLetter = [];
+var guessedLetter =[];
 var wins= 0;
 var losses = 0;
-var UserGuess;
-var pcMemGuesses;
+var UserGuess; 
+var pcMemGuess;
+
+console.log(UserGuess)
 
 
 
@@ -23,7 +25,7 @@ pcMemGuesses =  pcLetterDb[Math.floor(Math.random() * pcLetterDb.length)];
 
 var updateGuessesLeft = function(){
 
-	document.querySelector('#remain').innerHTML = GuessesLeft;
+	document.querySelector('#remain').innerHTML = guessesLeft;
 
 	//console.log(reh); - to check value of updatePGuessRemain.
 
@@ -31,15 +33,19 @@ var updateGuessesLeft = function(){
 
 var updateGuessesSoFar = function(){
 
-	document.querySelector('#used').innerHTML = "Your Guesses so far: " + pGuessUsed.join(", ");
+	document.querySelector('#used').innerHTML = "Your Guesses so far: " + guessedLetter.join(", ");
 
 	//console.log(kuch); -- gets value for var if its assigned value is docu.query
 
 };
 
-document.onKeyUp = function(event){
+document.onkeyup = function(event){
+      
+      console.log (event) 
+      UserGuess= String.fromCharCode(event.keyCode).toLowerCase();
+      // event.key
 
-	if (UserGuess === guessedLetter) {
+	if (UserGuess === pcMemGuess) { 
 		wins++ ;
 
 		document.querySelector ('# wins').innerHTML ="wins:" + wins ;
@@ -47,17 +53,21 @@ document.onKeyUp = function(event){
 			
 		alert ("yes, you are psychic");
 
-		reset();
+		//reset();
 	}
 
-	else if ( guessesLeft === 0)  {
-		losses++
+	else if (UserGuess !== pcMemGuess && guessesLeft >=1)  {
+		guessesLeft--
+		guessedLetter.push(UserGuess)
+
+		updateGuessesLeft() 
+		updateGuessesSoFar() 
 	};
 
 	document.querySelector ('#losses').innerHTML ="losses:" ;
 	alert ("sorry, the correct letter is " + pcMemGuesses.toUpperCase + "maybe try again?");
 	alert ("sorry, you're not psychic,maybe try again?");
 
-	reset();
+	//reset();
 
 }
